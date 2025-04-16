@@ -1,0 +1,83 @@
+<% layout("layouts/boilerplate") %>
+<h3>Create a New Product</h3>
+<div class="row">
+    <div class="col-8 offset-2">
+        <form action="/products" method="POST" class="needs-validation" novalidate>
+            <fieldset name="product"> <legend>Product Details</legend>
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title:</label>
+                    <input class="form-control" type="text" id="title" name="title" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please provide a title.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description:</label>
+                    <textarea class="form-control" type="text" id="description" name="description" required></textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please provide a description.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="image">Image URL:</label>
+                    <input class="form-control" type="text" id="image" name="image" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please provide a valid image URL.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="price">Price:</label>
+                    <input class="form-control" type="number" id="price" name="price" required min="0">
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please provide a valid price.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location:</label>
+                    <input class="form-control" type="text" id="location" name="location" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please provide a location.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="category">Category:</label>
+                    <select class="form-select" id="category" name="category" required>
+                        <option value="">Select a category</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Root-Vegetables">Root Vegetables</option>
+                        <option value="Nightshades">Nightshades</option>
+                        <option value="Leafy-Greens">Leafy Greens</option>
+                        <option value="Bulbs">Bulbs</option>
+                        <option value="Gourds-and-Squashes">Gourds and Squashes</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a category.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="type">Type:</label>
+                    <select class="form-select" id="type" name="type" required>
+                        <option value="">Select a type</option>
+                        <option value="Organic">Organic</option>
+                        <option value="Normal">Normal</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a type.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="tags">Tags (comma-separated):</label>
+                    <input class="form-control" type="text" id="tags" name="tags">
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="true" id="isFeatured" name="isFeatured">
+                        <label class="form-check-label" for="isFeatured">Is Featured?</label>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" type="submit">Add Product</button>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>

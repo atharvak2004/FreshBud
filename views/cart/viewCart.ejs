@@ -1,0 +1,75 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container-cart">
+  <h1 class="text-center-cart">My Cart</h1>
+
+  <% if (cart && cart.items.length > 0) { %>
+    <div class="row">
+      <% cart.items.forEach(item => { %>
+        <% if (item.product && item.product.image && item.product.image.url) { %>
+          <div class="col-md-4 mb-4 " style="width: auto;">
+            <div class="card" style="width: 15rem;  margin-left: 3rem;"> 
+              <img src="<%= item.product.image.url %>" class="card-img-top" alt="<%= item.product.title %>" style="height: 180px; object-fit: cover;"> 
+              <div class="card-body">
+                <h5 class="card-title"><%= item.product.title %></h5>
+                <p class="card-text">Size: <%= item.product.size %></p>
+                <p class="card-text">Quantity: <%= item.quantity %></p>
+                <p class="card-text">Price: ₹<%= (item.product.price * item.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 }) %></p>
+                <form id="delete-form-<%= item._id %>" method="POST" action="/cart/<%= item._id %>">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <button class="btn btn-danger" onclick="removeCartItem('<%= item._id %>')" title="Remove this item">Remove</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        <% } else { %>
+          <% showUnavailableMessage = true; %> 
+        <% } %>
+      <% }) %>
+    </div>
+
+    <div class="text-center mt-4 mb-4">
+      <a href="/products" class="btn btn-secondary">Continue Shopping</a>
+      <form action="/checkout" method="POST" style="display: inline;">
+        <button class="btn btn-success">Buy Now</button>
+      </form>
+    </div>
+  <% } else { %>
+    <div class="text-center">
+      <p>Your cart is empty.</p>
+      <a href="/products" class="btn btn-primary">Start Shopping</a>
+    </div>
+  <% } %>
+</div>
+
+<script>
+  function removeCartItem(itemId) {
+    console.log("Button clicked for item ID:", itemId);
+
+    fetch(`/cart/${itemId}`, {
+      method: 'DELETE'
+    })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.error('Cart not found');
+          alert('Cart not found.');
+        } else {
+          console.error('Error removing item:', response.statusText);
+          alert('Failed to remove item from cart. Please try again later.');
+        }
+        return;
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      const row = document.querySelector(`#delete-form-${itemId}`).closest('tr');
+      if (row) row.remove();
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Failed to remove item from cart. Please try again later.');
+    });
+  }
+</script>

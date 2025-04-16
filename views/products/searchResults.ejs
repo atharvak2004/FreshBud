@@ -1,0 +1,33 @@
+<% if (products.length > 0) { %>
+    <h3>Search Results for "<%= searchQuery %>"</h3>
+    <ul>
+      <% products.forEach(product => { %>
+        <li>
+          <a href="/products/<%= product._id %>">
+            <img src="<%= product.image.url %>" class="card-img-top" alt="<%= product.title %>">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= product.title %>
+                            </h5>
+                            <p class="card-text">
+                                <%= product.description %>
+                            </p>
+                            <p class="card-text"><strong>Price:</strong> &#8377;<%= product.price %>
+                            </p>
+                            <p class="card-text"><strong>Category:</strong>
+                                <%= product.category %>
+                            </p>
+                            <p class="card-text"><strong>Type:</strong>
+                                <%= product.type %>
+                            </p>
+
+                        </div>
+          </a>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <h1>No results found for "<%= searchQuery %>"</h1>
+    <a href="/products">Back to All Products</a>
+  <% } %>
+  

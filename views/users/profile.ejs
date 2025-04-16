@@ -1,0 +1,33 @@
+<% layout("layouts/boilerplate") %>
+
+    <h3>Welcome <br>
+        @ <%= user.username %>!</h3>
+
+        <br>
+        <hr>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Profile Details</h5>
+            <p><strong>Name:</strong>
+                <%= user.username %>
+            </p>
+            <p><strong>Email:</strong>
+                <%= user.email %>
+            </p>
+            <p><strong>Address:</strong>
+                <br>
+                <%= user.address.street || "N/A" %>,
+                    <%= user.address.city || "N/A" %>,
+                        <%= user.address.state || "N/A" %>,
+                            <%= user.address.zip || "N/A" %>
+            </p>
+            <p><strong>Joined On:</strong>
+                <%= user.createdAt ? user.createdAt.toDateString() : "Date not available" %>
+            </p>
+
+            <a href="/profile/edit">Edit Profile</a>
+            <a href="/logout">Log Out</a>
+        </div>
+    </div>
+
+    <a href="/products">Back to Products</a>

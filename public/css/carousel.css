@@ -1,0 +1,140 @@
+/* Carousel Wrapper */
+/* Carousel Wrapper */
+.carousel-wrapper {
+  width: 100%;
+  /* Occupy full width */
+  height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  margin: 20px auto 20px;
+  overflow: hidden;
+  /* Ensure images don't overflow the wrapper */
+}
+
+/* Carousel Container */
+.carousel-container {
+  width: 100%;
+  /* Occupy full width within wrapper */
+  height: 100%;
+  /* Match the height of the wrapper */
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Carousel */
+.carousel {
+  display: flex;
+  width: 300%;
+  /* 3 images, each occupying 100% of the container */
+  animation: sliding 28s infinite;
+  height: 100%;
+  /* Match the height of the container */
+  transform: translateX(0);
+  /* Start position */
+}
+
+.carousel div {
+  flex: 0 0 33.33%;
+  /* Each image takes 33.33% width of the container */
+  height: 100%;
+  /* Match container height */
+  background-size: cover;
+  /* Maintain aspect ratio while covering the container */
+  background-repeat: repeat;
+  background-position: center;
+}
+
+.carousel:hover {
+  animation-play-state: paused;
+}
+
+/* Image Styles */
+.carousel .image-one {
+  background-image: url("https://media-hosting.imagekit.io//17aa378ac57840fa/FreshBud_carousel_4_img.png?Expires=1831978487&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ywsyuv2vMKUwzS0~bC31JjRrwP-xrAZ5EkSS4snnnteuPo-zukCEEDik-~KxGC~SW-VW06XrXj~LGl5tsZjIx5qPhc9fYoeRvM8lQ9mRgA-bxFGdAo~SAHkxBlWPb6jRBBJKdlxJ2aHrjYaAMz9d0EowIF1nlDreGQIUIme8aNPJLyiwDhZcTI-VROwUbkbTdDCDTb66UDzFqVqkZ7IQkX0oTRfGROwP1vDypzpIJrWjusftDDId5c1aDhlE0qtUVY8MaW05BU-fnxGJC3muCKYZK3ck8~dK6bj73GbN~r2dvkHJZAbmAzzmUpzIPEcZ5pP5ZZ85NnvbY41knvVMVw__");
+}
+
+.carousel .image-two {
+  background-image: url("https://media-hosting.imagekit.io//e7a41184ffbe47ce/FreshBud_carousel_2_img.png?Expires=1831978490&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ROYRRrXI~LCcE-hThkl9TWqv9BBXzqNfctimVtu4RNOvSWwUDuTaCFj2GWz-VemA1S6YSATzh4Fw9X7dJzjk3Nmyrpx~LdipUY9ESk0CcWLOXCqE4c292WaolbK3LI12hcYRdMHIxZFwJi5R6n9OKd3amX-aT8Blh6B0jqvAcqKgGR6GTLqlJg04C5w5QRnT754cUtDfd~TyDnuDX8Atf1tnRfR5KJHQGAU1~qvZcC4ts14zK56wdtSBJgKoa7Zj4FMCf-Oo9IlLj-NMjR9exYp67nBAK5Violk7tJ6hamS2RqKaCwjqAVl8yAfIsVMmc0x3vhpPc4ZopoGZAT50XQ__");
+}
+
+.carousel .image-three {
+  background-image: url("https://media-hosting.imagekit.io//589ce2965b5442e6/FreshBud_carousel_3_img.png?Expires=1831978549&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=kaha7f7PEyw2r49D1QtEnaW1bno9ltzLBR1~fRpyFrydsdC9Xa5nZLJJr-U5MgbRv7s8xBNrxfcU-sBK7G65pupDNiL81GfDOqtMjoysuKabR8NaQtGVWa7hdDw8UVj79ygEQ2gc8nWL36cnSrjayFDKJOQx6MUHvmmVpROjpdmbM7fdXi0jH6DCJGdz4tPupUZmxuBerA1YD6JQObfKriwrh2L1iirJztECF2X7NKDy2mKE0wVX2Dqxpyy0HyUH06QN7-Xk5GfJqeRW6I1Pc~u2B-7uQje2BlTYiHUBk2CzHQwMzSQ20U2bLxc98uzAF5olRCpWjd25~7UTJBobww__");
+}
+
+/* Animation */
+@keyframes sliding {
+  0% {
+    transform: translateX(0);
+  }
+
+  33% {
+    transform: translateX(-25%);
+    /* Slide to the second image */
+  }
+
+  66% {
+    transform: translateX(-50%);
+    /* Slide to the third image */
+  }
+
+  100% {
+    transform: translateX(0);
+    /* Back to the first image */
+  }
+}
+
+/* Animation */
+
+@keyframes sliding {
+  0% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(-33.5%);
+    /* Slide to the second image */
+  }
+  66% {
+    transform: translateX(-66.45%);
+    /* Slide to the third image */
+  }
+  100% {
+    transform: translateX(0);
+    /* Back to the first image */
+  }
+}
+
+
+
+/* Responsive Adjustments */
+
+@media screen and (max-width: 768px) {
+  .carousel-wrapper {
+    height: 300px;
+    /* Adjust height for smaller screens */
+  }
+  .carousel-container {
+    height: 100%;
+    /* Match wrapper height */
+  }
+  .carousel div {
+    flex: 0 0 100%;
+    /* Ensure each image still occupies 100% */
+  }
+  @keyframes sliding {
+    0% {
+      transform: translateX(0);
+    }
+    33% {
+      transform: translateX(-100%);
+    }
+    66% {
+      transform: translateX(-200%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+}

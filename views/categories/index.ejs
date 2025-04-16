@@ -1,0 +1,35 @@
+<% layout("layouts/boilerplate") %>
+
+<h1>Products in <%= selectedCategory || "All Categories" %></h1>
+
+<div class="product-container-cat">
+    <% allProducts.forEach(product => { %>
+      <div class="product-card-cat">
+        <div class="product-image">
+          <a href="/products/<%= product._id %>" class="btn">
+            <img src="<%= product.image.url %>" class="card-img-top product-thumb" alt="<%= product.title %>">
+          </a>
+        </div>
+        <div class="product-info">
+          <h3 class="product-brand"><%= product.title %></h3>
+          <div class="quantity-dropdown mb-2">
+            <button type="button" class="btn btn-outline-success dropdown-toggle quantity-btn"
+                    data-bs-toggle="dropdown" aria-expanded="false" id="quantity-dropdown-<%= product._id %>">
+              <%= product.quantity ? product.quantity : '1kg' %>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="quantity-dropdown-<%= product._id %>">
+              <li><button class="dropdown-item quantity-option" type="button" data-value="250gm">250gm</button></li>
+              <li><button class="dropdown-item quantity-option" type="button" data-value="500gm">500gm</button></li>
+              <li><button class="dropdown-item quantity-option" type="button" data-value="1kg">1kg</button></li>
+            </ul>
+          </div>
+          <p class="card-text"><strong>Price:</strong> &#8377;<%= product.price %></p>
+          <form action="/cart/add/<%= product._id %>" method="POST">
+            <input type="hidden" name="quantity" id="quantity-<%= product._id %>" value="1kg">
+            <button type="submit" class="btn btn-primary button">Add to Cart</button>
+          </form>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+  

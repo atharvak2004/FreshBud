@@ -1,0 +1,429 @@
+<% layout("layouts/boilerplate") %>
+<!-- Category Filters -->
+<div id="filters" class="mb-4">
+  <div class="filter">
+    <a href="/categories?category=Fruits">
+      <div><i class="fas fa-apple-alt"></i></div>
+      <p>Fruits</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/categories?category=Vegetables">
+      <div><i class="fas fa-carrot"></i></div>
+      <p>Vegetables</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/categories?category=Seasonal">
+      <div><i class="fas fa-pepper-hot"></i></div>
+      <p>Seasonal </p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/categories?category=Leafy-Greens">
+      <div><i class="fas fa-leaf"></i></div>
+      <p>Leafy Greens</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/categories?Exotic-Vegetables">
+      <div><i class="fas fa-seedling"></i></div>
+      <p>Exotic-Vegetables</p>
+    </a>
+  </div>
+  <div class="filter">
+    <a href="/categories?type=Organic">
+      <div><i class="fas fa-lemon"></i></div>
+      <p>Organicaly Grown</p>
+    </a>
+  </div>
+</div>
+
+  <div class="carousel-wrapper">
+    <div class="carousel-container">
+      <div class="carousel">
+        <div class="image-one"></div>
+        <div class="image-two"></div>
+        <div class="image-three"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const toggleButton = document.getElementById('toggleFilters');
+    const filtersDiv = document.getElementById('advanceFilters');
+
+    toggleButton.addEventListener('click', () => {
+      if (filtersDiv.style.display === 'none') {
+        filtersDiv.style.display = 'block';
+        toggleButton.textContent = 'Hide Filters'; // Change button text
+      } else {
+        filtersDiv.style.display = 'none';
+        toggleButton.textContent = 'Show Filters'; // Change button text
+      }
+    });
+  </script>
+  <% const categories = ['Fruits', 'Vegetables','Exotic-Vegetables','Best-Selling']; %>
+
+  <% let bestSellingInCategory = allProducts.filter(product => product.category === 'Best-Selling'); %>
+  
+  <section class="product">
+    <hr>
+    <h2 class="product-category">best selling</h2>
+    <button class="pre-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="left"></button>
+    <button class="nxt-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="right"></button>
+    <div class="product-container">
+      <% if (bestSellingInCategory && bestSellingInCategory.length > 0) { %>
+        <% bestSellingInCategory.forEach(product => { %>
+          <div class="product-card">
+            <div class="product-image">
+              <a href="/products/<%= product._id %>" class="btn">
+                <img src="<%= product.image.url %>" class="card-img-top product-thumb" alt="<%= product.title %>">
+              </a>
+            </div>
+            <div class="product-info">
+              <h3 class="product-brand"><%= product.title %></h3>
+              <div class="quantity-dropdown mb-2">
+                <button type="button" class="btn btn-outline-success dropdown-toggle quantity-btn"
+                        data-bs-toggle="dropdown" aria-expanded="false" id="quantity-dropdown-<%= product._id %>">
+                  <%= product.quantity ? product.quantity : '1kg' %>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="quantity-dropdown-<%= product._id %>">
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="250gm">250gm</button></li>
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="500gm">500gm</button></li>
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="1kg">1kg</button></li>
+                </ul>
+              </div>
+              <p class="card-text"><strong>Price:</strong> &#8377;<%= product.price %>
+              </p>
+              <form action="/cart/add/<%= product._id %>" method="POST">
+                <input type="hidden" name="quantity" id="quantity-<%= product._id %>" value="1kg">
+                <button type="submit" class="btn btn-primary button">Add to Cart</button>
+              </form>
+            </div>
+          </div>
+        <% }); %> 
+      <% }; %> 
+    </div>
+    <hr>
+  </section>
+  
+  <% let organicVegeFruitsInCategory = allProducts.filter(product => product.category === 'Vegetables'); %>
+  <div class="green-container">
+    <section class="product">
+      <h2 class="product-category">Organic Vegetables & Fruits: <b style="color: red;">Upto 10% off</b></h2>
+      <button class="pre-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="left"></button>
+      <button class="nxt-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="right"></button>
+      <div class="product-container">
+        <% if (organicVegeFruitsInCategory && organicVegeFruitsInCategory.length > 0) { %>
+          <% organicVegeFruitsInCategory.forEach(product => { %>
+            <div class="product-card">
+              <div class="product-image">
+                <a href="/products/<%= product._id %>" class="btn">
+                  <img src="<%= product.image.url %>" class="card-img-top product-thumb" alt="<%= product.title %>">
+                </a>
+              </div>
+              <div class="product-info">
+                <h3 class="product-brand"><%= product.title %></h3>
+                <div class="quantity-dropdown mb-2">
+                  <button type="button" class="btn btn-outline-success dropdown-toggle quantity-btn"
+                          data-bs-toggle="dropdown" aria-expanded="false" id="quantity-dropdown-<%= product._id %>">
+                    <%= product.quantity ? product.quantity : '1kg' %>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="quantity-dropdown-<%= product._id %>">
+                    <li><button class="dropdown-item quantity-option" type="button" data-value="250gm">250gm</button></li>
+                    <li><button class="dropdown-item quantity-option" type="button" data-value="500gm">500gm</button></li>
+                    <li><button class="dropdown-item quantity-option" type="button" data-value="1kg">1kg</button></li>
+                  </ul>
+                </div>
+                <p class="card-text"><strong>Price:</strong> &#8377;<%= product.price %>
+                </p>
+                <form action="/cart/add/<%= product._id %>" method="POST">
+                  <input type="hidden" name="quantity" id="quantity-<%= product._id %>" value="1kg">
+                  <button type="submit" class="btn btn-primary button">Add to Cart</button>
+                </form>
+              </div>
+            </div>
+          <% }); %> 
+        <% }; %> 
+      </div>
+      <hr>
+    </section>
+  </div>
+
+  <% let leafyVegetablesInCategory = allProducts.filter(product => product.category === 'Leafy-Greens'); %>
+  
+  <section class="product">
+    <h2 class="product-category">Leafy-Greens: <b style="color: red;">Upto 10% off</b></h2>
+    <button class="pre-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="left"></button>
+    <button class="nxt-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="right"></button>
+    <div class="product-container">
+      <% if (leafyVegetablesInCategory && leafyVegetablesInCategory.length > 0) { %>
+        <% leafyVegetablesInCategory.forEach(product => { %>
+          <div class="product-card">
+            <div class="product-image">
+              <a href="/products/<%= product._id %>" class="btn">
+                <img src="<%= product.image.url %>" class="card-img-top product-thumb" alt="<%= product.title %>">
+              </a>
+            </div>
+            <div class="product-info">
+              <h2 class="product-brand"><%= product.title %></h2>
+              <div class="quantity-dropdown mb-2">
+                <button type="button" class="btn btn-outline-success dropdown-toggle quantity-btn"
+                        data-bs-toggle="dropdown" aria-expanded="false" id="quantity-dropdown-<%= product._id %>">
+                  <%= product.quantity ? product.quantity : '1kg' %>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="quantity-dropdown-<%= product._id %>">
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="250gm">250gm</button></li>
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="500gm">500gm</button></li>
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="1kg">1kg</button></li>
+                </ul>
+              </div>
+              <p class="card-text"><strong>Price:</strong> &#8377;<%= product.price %>
+              </p>
+              <form action="/cart/add/<%= product._id %>" method="POST">
+                <input type="hidden" name="quantity" id="quantity-<%= product._id %>" value="1kg">
+                <button type="submit" class="btn btn-primary button">Add to Cart</button>
+              </form>
+            </div>
+          </div>
+        <% }); %> 
+      <% }; %> 
+    </div>
+    <hr>
+  </section>
+
+
+  <div class="benefits-container green-container">
+    <div class="benefit">
+      <img src="https://media-hosting.imagekit.io//e3199a34a5624fd1/delivery.png?Expires=1831927097&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=VuoRZ5gGY0~3Cp7o5adB1EJV6aLrP09l1~5DSXmLi9N3IePFvoNds8n-e5klIZJz6xftVHNUy6L4LHe-QnlLoDEoCzw-z-qFKCm7NkDF8QGmGy~vtPHjUFyp7mMYKBbpV~5yLCV7Mo3mWEbd0HQATGEMqCVgjjBlIEVfa89yA2U29wY828f2W5qkAUKuoLrBtpyawSZj2hY0DEmkKUQo2Gf0oNcXcFp82ejxJCYbZp4FIWkrQyX~YWOoYloTKvu-dYcaAlfvEOkPcCZ4vc4y6JO08n1GkRKP5iuv4GYKcjmhY5J4pFTmksYkkCo2hWNntqwLCObHuTjvDQktO2LvtA__" alt="Delevery_icon">
+      <h2>Free Delivery*</h2>
+      <p>On all orders above 10kg</p>
+    </div>
+  
+    <div class="benefit ">
+      <img src="https://media-hosting.imagekit.io//87ecc698433346b2/atm-card.png?Expires=1831927220&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=wmseHTkyaQZ4jistN5Zk0HQR0QMF1g6D-1nRXK9wHX4NDG~3f6R6OJsx5px7MJ1x~YDyHR57HSLicEffE2r48V9-oxy2bmRfj~eIcZSEuZHiXEhd7X15FReUcwXqeCukpDIE~nZpBA8ma7ktHl4iQMQJY0DRus8adxWtRG-ii5oKb8CA9Eckx~MoFyyjov~gjHM1Tec2IWFUBKjPlYV7-1TjZxvL-Im-Q1qaNA4pW-lNGszdVv9fTPUVqXnM8vY3NoxnhKYGIZC1~erpEH0cHvYgDCKuw0UPDz-IFn25bf4sYP37qeE6EekH~9Ond7VAlXbzN2RwxLYQk7THkpQcFQ__" alt="Payment_method_icon">
+      <h2>All Payment Modes</h2>
+      <p>Cards, UPI, Wallets, Net Banking and COD</p>
+    </div>
+  
+    <div class="benefit">
+      <img src="https://media-hosting.imagekit.io//b598beade742402b/customer-service.png?Expires=1831927310&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=bmHWuFfGhWIFWfZIuUW9ZYCav66Tf0-qiwZ86dsH1rGwgGbPgd9dwzN1N5mcYjGnpA2gd-finJF460hQDWvvtPg~sbjuVZyTYS2MmwKgt~6~VRrEfm0Ta7wGXzefJVum3rx1m831AEID1XbZ7eIAxLnN06vxRkb70tTU6KOvmhO2SJlysvOsMGVa5LeH~81idRuuGIs14Vc-~J1sh07DX6uNRtviTkU~7WCQJPXPzQ03KFFhtlZljyQGUFZXXXAPDhsc8ih8NVbepIra0WtAXfciVa2NANMKZUs7PxA-xj~PhvuxYaH1f-xQM5A-GPavnGnYQPzDlMRpXYKU-AVngQ__" alt="Customer_support_icon">
+      <h2>Customer Support</h2>
+      <p>Between 6am to 9pm</p>
+    </div>
+  </div>
+  <hr>
+
+
+  <% let seasonalFruitsInCategory = allProducts.filter(product => product.category === 'Fruits'); %>
+  
+  <section class="product">
+    <h2 class="product-category">Fresh Seasonal Fruits: <b style="color: red;">Upto 10% off</b></h2>
+    <button class="pre-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="left"></button>
+    <button class="nxt-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="right"></button>
+    <div class="product-container">
+      <% if (seasonalFruitsInCategory && seasonalFruitsInCategory.length > 0) { %>
+        <% seasonalFruitsInCategory.forEach(product => { %>
+          <div class="product-card">
+            <div class="product-image">
+              <a href="/products/<%= product._id %>" class="btn">
+                <img src="<%= product.image.url %>" class="card-img-top product-thumb" alt="<%= product.title %>">
+              </a>
+            </div>
+            <div class="product-info">
+              <h3 class="product-brand"><%= product.title %></h3>
+              <div class="quantity-dropdown mb-2">
+                <button type="button" class="btn btn-outline-success dropdown-toggle quantity-btn"
+                        data-bs-toggle="dropdown" aria-expanded="false" id="quantity-dropdown-<%= product._id %>">
+                  <%= product.quantity ? product.quantity : '1kg' %>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="quantity-dropdown-<%= product._id %>">
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="250gm">250gm</button></li>
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="500gm">500gm</button></li>
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="1kg">1kg</button></li>
+                </ul>
+              </div>
+              <p class="card-text"><strong>Price:</strong> &#8377;<%= product.price %>
+              </p>
+              <form action="/cart/add/<%= product._id %>" method="POST">
+                <input type="hidden" name="quantity" id="quantity-<%= product._id %>" value="1kg">
+                <button type="submit" class="btn btn-primary button">Add to Cart</button>
+              </form>
+            </div>
+          </div>
+        <% }); %> 
+      <% }; %> 
+    </div>
+    <hr>
+  </section>
+
+  <% let exoticVegeFruitsInCategory = allProducts.filter(product => product.category === 'Exotic-Vegetables'); %>
+  <div>
+    <section class="product">
+      <h2 class="product-category">Exotic Vegetables & Fruits: <b style="color: red;">Upto 10% off</b></h2>
+      <button class="pre-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="left"></button>
+      <button class="nxt-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="right"></button>
+      <div class="product-container">
+        <% if (exoticVegeFruitsInCategory && exoticVegeFruitsInCategory.length > 0) { %>
+          <% exoticVegeFruitsInCategory.forEach(product => { %>
+            <div class="product-card">
+              <div class="product-image">
+                <a href="/products/<%= product._id %>" class="btn">
+                  <img src="<%= product.image.url %>" class="card-img-top product-thumb" alt="<%= product.title %>">
+                </a>
+              </div>
+              <div class="product-info">
+                <h3 class="product-brand"><%= product.title %></h3>
+                <div class="quantity-dropdown mb-2">
+                  <button type="button" class="btn btn-outline-success dropdown-toggle quantity-btn"
+                          data-bs-toggle="dropdown" aria-expanded="false" id="quantity-dropdown-<%= product._id %>">
+                    <%= product.quantity ? product.quantity : '1kg' %>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="quantity-dropdown-<%= product._id %>">
+                    <li><button class="dropdown-item quantity-option" type="button" data-value="250gm">250gm</button></li>
+                    <li><button class="dropdown-item quantity-option" type="button" data-value="500gm">500gm</button></li>
+                    <li><button class="dropdown-item quantity-option" type="button" data-value="1kg">1kg</button></li>
+                  </ul>
+                </div>
+                <p class="card-text"><strong>Price:</strong> &#8377;<%= product.price %>
+                </p>
+                <form action="/cart/add/<%= product._id %>" method="POST">
+                  <input type="hidden" name="quantity" id="quantity-<%= product._id %>" value="1kg">
+                  <button type="submit" class="btn btn-primary button">Add to Cart</button>
+                </form>
+              </div>
+            </div>
+          <% }); %> 
+        <% }; %> 
+      </div>
+      <hr>
+    </section>
+  </div>
+  
+  <div class="benefits-container green-container">
+    <div class="benefit">
+      <img src="https://media-hosting.imagekit.io//9c9ba6a7189c4a94/farmer.png?Expires=1831909206&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=KLzS7X2EcZhOJt9tL0Y2EKrwBzhDpW~31fLPyZYEGHNuMv0hvPX3CjQOmtJjyYWr4rw9UMHNStOu8BXLL4w7Lp5T4-bbSnyScLNVmUSBofXzxLUSNajtR86ZRx4DiuA-rbxd2LrYNsNJeue9ZZbGwQMKREmpSCIHULDR81N5MsF9Y48~l84W3K8q-sfRFWMhneIHAJhAa8ba3VbPY0t2Vp2ATwRCPoC1LtMUb2Gto9dRFEKlLEPN0JxHJExKR4uuqeoqmAjjneXvHkW-9W9BnzbpOmu0jeUrgUyUtaVFXSRHlm4uu83N8uPVankcAH3XBSz60wBrQvnBTlHcW68KUw__" alt="farmer_img ">
+      <h2>100+</h2>
+      <p>Farmers connected</p>
+    </div>
+  
+    <div class="benefit">
+      <img src="https://media-hosting.imagekit.io//808d4f98ecf541ed/vegetables.png?Expires=1831909499&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=Estr707yrEB6HQzbpakhiDsGDQNZGgyYVFn4fOrN9~icRX~IYjxy7cPrLDndxIjpIpY5ug6O7iMjNS6gYoptpBOu83gPWokgP7TG8Quj6nmtaJGycB7j0gdtTmwl21fQqXq431~9bsT~iG2YzcQIjiKm3F2RLmOJ37CT2l3dt4b0fMijHOhZLmSIhUZrcQp58gIFWRKGMg0BiZqpnT3r37v8F3Obk8QmcrMHFEPaR8~MecshY1GHce9D0feuPNpXfpywGNC~Bd9NwZUzBYEnxDGBlHoluzDegIL1H0-yn2dBBLxyy2tbldWOSzQJgvypkVL3eP4zyudaekAEtVUaTw__" alt="product_img">
+      <h2>50+</h2>
+      <p>Organic and authentic Products</p>
+    </div>
+  
+    <div class="benefit">
+      <img src="https://media-hosting.imagekit.io//2549018da7714571/rating.png?Expires=1831909593&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=cD0GDyqL74aptIn2jQPALmcH1~DtKKItAi-ZyHX3~EyPPaR8svsfgJCWDyPTcD~NLtoM3d4kuJvYXfdZHmo9YCVrp8t7XNIHpXqVYM-aBGawmtvFiFKm21~PoyGN8~bK-mL7U1StfRmastlDmXeorLb7UtfVl6s6cHUQNx9IWbNrj~UIBrOjtEoaRz2VPUN~X3K0NR4X6lw9lXnTh7Bsgf4aly02-4FIw0WJezOv-LI58ww4NJLVggyHg1ph75vErAkDk8AiGZTu1-AnRMePwgPNqHmyI4a8~EGZnRLBgUdBGDF2wc5vx94KqSKA9HwUvoMZ~dAK7kEs3t5dp1xZrg__" alt="customer_img">
+      <h2>500+</h2>
+      <p>Customers connected</p>
+    </div>
+  </div>
+  <hr>
+
+  <% let todaysOfferInCategory = allProducts.filter(product => product.category === 'Leafy-Greens'); %>
+  
+  <section class="product">
+    <h2 class="product-category">Today's Offer: <b style="color: red;">20% off</b></h2>
+    <button class="pre-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="left"></button>
+    <button class="nxt-btn"><img src="https://media-hosting.imagekit.io//85913737fb794ce3/arrow.png?Expires=1831929924&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=XFGcJNnhlDLTOK0eoEjMd5rGk71GG~6JEXRiiJ7RQLfU~tTv1wPHfa9Wwq9sPs5ZUWocg4t222kBJbqxM1idUv41GrtBcOVrrrKmaLd7NUycT1mR3HDEGe8naNasVNrlhbXdagFiOIslOd-jquM5BjTgEgVC-NiAT6Dh6m3X2IqKXf4dknG4sR5lz~~KCf2s4un78qjx5cMt5MECzP~tJ3Gs6A0-4wzKyBZM-AGCks~l2zwFDxZmx5jyIsD8o1bytZvx6BVwW64pmCV60Du5VkWj6C4xtiI~Yutbj4g8zaoBt83WoKMespvE4INp-Zok~MboVgTla53VAkKpzgti0w__" alt="right"></button>
+    <div class="product-container">
+      <% if (todaysOfferInCategory && todaysOfferInCategory.length > 0) { %>
+        <% todaysOfferInCategory.forEach(product => { %>
+          <div class="product-card">
+            <div class="product-image">
+              <a href="/products/<%= product._id %>" class="btn">
+                <img src="<%= product.image.url %>" class="card-img-top product-thumb" alt="<%= product.title %>">
+              </a>
+            </div>
+            <div class="product-info">
+              <h2 class="product-brand"><%= product.title %></h2>
+              <div class="quantity-dropdown mb-2">
+                <button type="button" class="btn btn-outline-success dropdown-toggle quantity-btn"
+                        data-bs-toggle="dropdown" aria-expanded="false" id="quantity-dropdown-<%= product._id %>">
+                  <%= product.quantity ? product.quantity : '1kg' %>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="quantity-dropdown-<%= product._id %>">
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="250gm">250gm</button></li>
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="500gm">500gm</button></li>
+                  <li><button class="dropdown-item quantity-option" type="button" data-value="1kg">1kg</button></li>
+                </ul>
+              </div>
+              <p class="card-text"><strong>Price:</strong> &#8377;<%= product.price %>
+              </p>
+              <form action="/cart/add/<%= product._id %>" method="POST">
+                <input type="hidden" name="quantity" id="quantity-<%= product._id %>" value="1kg">
+                <button type="submit" class="btn btn-primary button">Add to Cart</button>
+              </form>
+            </div>
+          </div>
+        <% }); %> 
+      <% }; %> 
+    </div>
+    <hr>
+  </section>
+
+  <div class="help-section">
+    <h2>NEED HELP?</h2>
+    <p>We are here to help you with your order!</p>
+    <button class="btn btn-outline-warning mb-2">Help</button>
+    <p>Text us any time and we'll respond within 24 hours!</p>
+  </div>
+  <hr>
+
+  <div class="customers-reviews">
+    <h2 style="padding: 30px;">What Our Happy Customers Say</h2>
+
+    <div class="testimonials-container">
+      <div class="testimonial">
+        <p><i class="fa-solid fa-quote-left" style="font-size: 30px;"></i>  "I've been a loyal customer of FreshBud for over a year now, and I've never been disappointed. Their produce is consistently fresh, and the quality is top-notch. I especially appreciate their commitment to sourcing local and seasonal ingredients. Highly recommended!"</p>
+        <div>
+          <span class="name">~ Ranjeet J</span><br>
+          <span class="profession">MBA</span>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <p><i class="fa-solid fa-quote-left" style="font-size: 30px;"></i>  "The staff at FreshBud are incredibly friendly and helpful. They always go the extra mile to ensure customer satisfaction. I recently had a question about a product, and they were quick to respond and provide me with all the information I needed. A+ customer service!"</p>
+        <div>
+          <span class="name">~ Rohit G</span><br>
+          <span class="profession">IT Engineer</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonials-container ">
+      <div class="testimonial ">
+        <p><i class="fa-solid fa-quote-left" style="font-size: 30px;"></i>  "FreshBud's delivery service is a lifesaver! I can order groceries online and have them delivered right to my doorstep within hours. The delivery drivers are always punctual and courteous. This service has made my life so much easier."</p>
+        <div>
+          <span class="name">~ Atharva K</span><br>
+          <span class="profession">Professor</span>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <p><i class="fa-solid fa-quote-left" style="font-size: 30px;"></i>  "I'm impressed by the wide variety of products available at FreshBud. They have everything from fresh fruits and vegetables to dairy, meat, and even household essentials. And the prices are very competitive compared to other grocery stores in the area. I'll definitely be a repeat customer!"</p>
+        <div>
+          <span class="name">~ Tanmay D</span><br>
+          <span class="profession">Professional</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<hr>
+
+  <div class="delivery-payment">
+    <h2>Delivery and Payment</h2>
+    <p>Enjoy hassle-free payment with the plenitude of payment options available for you. Set live tracking and locate your food on a live map. It's quite a sight to see your food arrive to your door. Plus, you get a 5% discount on every order every time you pay online.</p>
+    <button class="btn btn-outline-warning mb-3">Order Now</button>
+
+    <div class="payment-logos">
+      <img src="https://media-hosting.imagekit.io//6dcde23408ba4d57/cashless-payment.png?Expires=1831930727&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=TeH0fqc~5hAzgGFD3A2MORtOAsUWAhGqWqmFF4UF08V0ZTIu556a-NbsD9K9VA01-wh00dtw~G7Sn3ckAwnjH6BgmmGRvvL7oNEttNWIPVLvHRh5QJLmFhFzOj8eZn6kBjqfDp6G~AjpjVdOwreV1yBWrYN6vyy8j4p2zw5-jYeK4WA3GiqJIIMffWHsiFqKnrqCJxhM902KisA9UTKpifskMz4PITSkbE56kvObL-u4QEB9vi36D6VabqFiR8nwzL-Hjp7thWYR3G08wKAyKvFCeNqXjLWLhrvQZzsHCeT5M5NNIju69OJhd1BJCvzy94pJUh08iG7CDCB9AkEv3w__" alt="UPI">
+      <img src="https://media-hosting.imagekit.io//8378eb35ae6d4ff6/visa.png?Expires=1831930733&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=y0GCoOYeZ-fq~tFqrPbIwcOpg17Dj75~z7hBk~jkhMsesmCQ7zZLYqxDSwUEoq28~Nz2qylPUnvdV9afIiVxbsECqU9qaa7WzFV9drp2ehGenQnFvD6SyeVmN5q6XHMCZdgZrZ3ngprOqI1c-KhA7nnVdFWQ73NUrOofR4yBzd0CXeW8fVuupLXtYtirIz83Me562WlG4Gq3PnWHHNWHBDAVuNDj7NKFYDvDDS3QA2duPuEZ8FH-sPoSIA-ygFuZLQFDoKesz27gQPzntdcnKrSRteMXkkVcGe~qhfVNn4a8pMT666iAACZX-A1kCYx8XvpMEpu43Qk~7o-Xl1CoIA__" alt="Visa">
+      <img src="https://media-hosting.imagekit.io//d0ac70a09f9041e6/logo.png?Expires=1831930730&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=L47sqNfQCC-S4prekiWVeJmDIoqj~RlZ24e4zDGEUMGwoDVMV4viAlD1nIiX~yaIJ-QFQNEyQjAfyy5aDIrsQCo1zwE~Qz0i4cpWDgZ1yLvKu5~KBtuAroYbZcRu61paQELBCFcesnJrNMtn1vu8iZNxOv~MuyY-JtqPFbE2DYwfNiShjlwFWeaTB3Z7E7KoWBDyQC9S1~DRIgRRSxhNZKUK0JMwTh5cE2YwibAvE8kTuhW86kU7LKdtXZsznurMAvXUIvrrux4KxbbROn7rU8no39Rw5xNaFNB28xDCFwklemX~OJokzLsAq~mbKILuqQoB75aQJJ8IAQgGNzkxxg__" alt="Mastercard">
+      <img src="https://media-hosting.imagekit.io//e6eb081547ec4154/paypal.png?Expires=1831930729&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=2eVXmaemEKuCnEqEg9pqWCH5AEfwT881jaYrMOWILs6ECugHgJKIxqfghK6Z64YQMXvY-22MChtCjI9UUO2Zq3luv-OXSzxjeGl8izDbEaJm6SYKb0vWEjeChbqlQ9Bz8OXxcq~BTb63VL52HX~Y5dF29zup4NH2-rLB26eM9xE45syEQoApbmXRHWxiP8uXpjQ6FOZDkAwwjb0gVxiNQZZOBoZTPq9LU8Q1iCvzGOWk89rMUyJHaLI4Ei-muyXH3wvoFXyFoWnjyNLV0X7yBNxsGl~1QFkUzA-1D5eWSRC43Pv9ZLWsfsVQRCPLCoABvqejfO-pUbMrXUBviAdB0g__" alt="PayPal">
+      <img src="https://media-hosting.imagekit.io//f4c8de583f3b4685/dollars.png?Expires=1831930727&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=Phsi-KR0Kj9m29q5opVyl~thWRXrQlGVZb9ne0AB5bbjwwzRujBu2Oz9sqCBLegMo2OtJLN2fWHKPTAC1~PdIQjY1GyWMDTnx0-wQHlyY569gP4NZrz6Ap1ItAx6erMX9yqf-bBOU0jFgf85Y37mCi36OWOgeg64DNq2fvP31UELfSv5682hSFvDFxJ-CMnXE~18D4tPFMZdGpfyhNP4b3NmpRF0Sw8~Wm76Pp5d7TNlAu3jXs1ECYLlY15KpyiDEbCUo9WA8LnVOEWKhRTOQFLQ5T21ltuqmg67hNiSzgCaeNsVgLBC56i9YNXFN1Q43ueHDw4yJBh8Xis4vdJovw__" alt="Visa">
+    </div>
+  </div>
